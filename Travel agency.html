@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Актуальные туры в страны Азии</title>
+<style>
+ 
+:root {
+    --plum: #5b3f56;
+    --plum-dark: #493345;
+    --plum-light: #765a71;
+    --cream: #f2ecd8;
+    --cream-text: #3a2f38;
+    --light: #e7e2d3;
+    --muted: #665963;
+}
+ 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+ 
+html {
+    scroll-behavior: smooth;
+}
+ 
+body {
+    font-family: 'Segoe UI', 'PT Sans', Arial, sans-serif;
+    color: var(--cream-text);
+    background: var(--cream);
+    line-height: 1.5;
+}
+ 
+[id] {
+    scroll-margin-top: 90px;
+}
+ 
+a, button {
+    font-family: inherit;
+}
+ 
+/* Accessible focus state everywhere */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--light);
+    outline-offset: 3px;
+}
+ 
+ 
+/* HEADER */
+ 
+header {
+    background: var(--plum);
+    padding: 22px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+ 
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+nav a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 4px 2px;
+    transition: opacity 0.2s;
+    position: relative;
+}
+ 
+nav a:hover {
+    opacity: 0.65;
+}
+ 
+nav a.active {
+    opacity: 1;
+}
+ 
+nav a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 2px;
+    background: var(--cream);
+}
+ 
+ 
+/* HERO */
+ 
+.hero {
+    padding: 65px 40px 75px;
+}
+ 
+.hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+.hero h1 {
+    color: var(--plum);
+    font-size: clamp(2.1rem, 4vw, 3.4rem);
+    font-weight: 500;
+    line-height: 1.15;
+    margin-bottom: 45px;
+    max-width: 800px;
+}
+ 
+ 
+/* TOUR CARDS */
+ 
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+}
+ 
+.card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--plum);
+    box-shadow: 0 8px 25px rgba(74, 51, 70, 0.16);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+ 
+.card:hover,
+.card:focus-within {
+    transform: translateY(-7px);
+    box-shadow: 0 14px 30px rgba(74, 51, 70, 0.22);
+}
+ 
+.card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+}
+ 
+.card-label {
+    padding: 22px 20px 26px;
+    text-align: center;
+}
+ 
+.country {
+    color: var(--cream);
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+ 
+.price {
+    color: #d8cede;
+    font-size: 1.1rem;
+}
+ 
+ 
+/* CTA */
+ 
+.cta-section {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    background: var(--plum-dark);
+}
+ 
+.cta-text {
+    padding: 75px 65px;
+    color: var(--cream);
+    align-self: center;
+}
+ 
+.cta-text h2 {
+    font-size: clamp(1.9rem, 3vw, 2.3rem);
+    font-weight: 500;
+    margin-bottom: 28px;
+    line-height: 1.25;
+}
+ 
+.highlights {
+    font-size: 1.3rem;
+    line-height: 1.65;
+    font-weight: 500;
+    margin-bottom: 28px;
+}
+ 
+.cta-text p {
+    font-size: 1.03rem;
+    line-height: 1.65;
+    color: #e3d9df;
+    max-width: 520px;
+    margin-bottom: 12px;
+}
+ 
+.cta-button {
+    margin-top: 22px;
+    display: inline-block;
+    background: var(--light);
+    color: var(--plum-dark);
+    border: none;
+    padding: 16px 34px;
+    font-size: 1.03rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+ 
+.cta-button:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+ 
+.cta-image {
+    min-height: 460px;
+    background-size: cover;
+    background-position: center;
+}
+ 
+ 
+/* CONSULTATION */
+ 
+.consultation {
+    background: var(--cream);
+    padding: 80px 40px;
+}
+ 
+.consultation-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+.consultation-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+    align-items: start;
+}
+ 
+.consultation-left h2 {
+    color: var(--plum);
+    font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+ 
+.consultation-intro {
+    color: var(--muted);
+    font-size: 1.03rem;
+    line-height: 1.6;
+    max-width: 650px;
+    margin-bottom: 40px;
+}
+ 
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+ 
+.step {
+    border-top: 2px solid var(--plum);
+    padding-top: 20px;
+}
+ 
+.step-number {
+    color: var(--plum-light);
+    font-size: 0.92rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+ 
+.step h3 {
+    color: var(--plum);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+ 
+.step p {
+    color: var(--muted);
+    font-size: 0.96rem;
+    line-height: 1.55;
+}
+ 
+.consultation-contact {
+    background: var(--plum);
+    border-radius: 18px;
+    padding: 35px;
+    color: var(--cream);
+}
+ 
+.consultation-contact h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+ 
+.consultation-contact > p {
+    color: #ddd0da;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+ 
+.contact-item {
+    margin-bottom: 13px;
+    font-size: 1.02rem;
+}
+ 
+.contact-item span {
+    color: #bcaaba;
+    display: block;
+    font-size: 0.82rem;
+    margin-bottom: 3px;
+}
+ 
+.consultation-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 10px;
+    background: var(--light);
+    color: var(--plum-dark);
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+ 
+.consultation-button:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+ 
+ 
+/* FOOTER */
+ 
+footer {
+    background: #3e2c3b;
+    color: #cfc2cb;
+    padding: 25px 40px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+ 
+ 
+/* RESPONSIVE */
+ 
+@media (max-width: 900px) {
+ 
+    .cta-section {
+        grid-template-columns: 1fr;
+    }
+ 
+    .cta-image {
+        min-height: 320px;
+        order: -1;
+    }
+ 
+    .consultation-content {
+        grid-template-columns: 1fr;
+    }
+ 
+    .steps {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+ 
+@media (max-width: 640px) {
+ 
+    header {
+        padding: 16px 20px;
+    }
+ 
+    nav {
+        gap: 22px;
+        justify-content: space-between;
+    }
+ 
+    nav a {
+        font-size: 0.92rem;
+    }
+ 
+    .hero {
+        padding: 45px 20px 55px;
+    }
+ 
+    .hero h1 {
+        margin-bottom: 32px;
+    }
+ 
+    .cta-text {
+        padding: 50px 25px;
+    }
+ 
+    .consultation {
+        padding: 55px 20px;
+    }
+ 
+    .steps {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+ 
+    .consultation-contact {
+        padding: 26px;
+    }
+ 
+    .contacts {
+        padding: 50px 20px;
+    }
+}
+ 
+</style>
+</head>
+<body>
+ 
+<header>
+    <nav>
+        <a href="#tours" class="active">Лучшие туры</a>
+        <a href="Offers%20and%20Tours.html">Все предложения</a>
+        <a href="#contacts">Контакты</a>
+    </nav>
+</header>
+ 
+ 
+<section class="hero" id="tours">
+    <div class="hero-inner">
+ 
+        <h1>Самые актуальные туры<br>в страны Азии</h1>
+ 
+        <div class="cards">
+ 
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" alt="Лодки на реке во Вьетнаме">
+                <div class="card-label">
+                    <div class="country">Вьетнам</div>
+                    <div class="price">от 240 000 ТГ</div>
+                </div>
+            </div>
+ 
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=800&q=80" alt="Вид на город в Турции">
+                <div class="card-label">
+                    <div class="country">Турция</div>
+                    <div class="price">от 237 000 ТГ</div>
+                </div>
+            </div>
+ 
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80" alt="Статуя Будды в Таиланде">
+                <div class="card-label">
+                    <div class="country">Таиланд</div>
+                    <div class="price">от 228 000 ТГ</div>
+                </div>
+            </div>
+ 
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80" alt="Башни Петронас в Малайзии">
+                <div class="card-label">
+                    <div class="country">Малайзия</div>
+                    <div class="price">от 262 000 ТГ</div>
+                </div>
+            </div>
+ 
+        </div>
+ 
+    </div>
+</section>
+ 
+ 
+<section class="cta-section">
+    <div class="cta-text">
+        <h2>Путешествие, которое подходит вам</h2>
+ 
+        <div class="highlights">
+            Индивидуальный подбор<br>
+            Проверенные направления<br>
+            Поддержка на протяжении всей поездки
+        </div>
+ 
+        <p>Мы подбираем путешествия не только по цене и направлению.</p>
+        <p>Учитываем ваши даты, бюджет и пожелания, чтобы поездка действительно подходила именно вам.</p>
+ 
+        <button class="cta-button">Подобрать путешествие</button>
+    </div>
+ 
+    <div class="cta-image" style="background-image: url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=85');"></div>
+</section>
+ 
+ 
+<section class="consultation" id="consultation">
+    <div class="consultation-inner">
+ 
+        <div class="consultation-content">
+ 
+            <div class="consultation-left">
+ 
+                <h2>Персональная консультация</h2>
+                <p class="consultation-intro">
+                    Не обязательно заранее знать страну, отель или точные даты.
+                    Расскажите, каким вы представляете свой отдых, а мы предложим несколько подходящих вариантов.
+                </p>
+ 
+                <div class="steps">
+ 
+                    <div class="step">
+                        <div class="step-number">01</div>
+                        <h3>Расскажите о поездке</h3>
+                        <p>Укажите желаемые даты, бюджет, количество путешественников и ваши пожелания.</p>
+                    </div>
+ 
+                    <div class="step">
+                        <div class="step-number">02</div>
+                        <h3>Получите варианты</h3>
+                        <p>Мы подберём несколько маршрутов, отелей и вариантов отдыха под ваши условия.</p>
+                    </div>
+ 
+                    <div class="step">
+                        <div class="step-number">03</div>
+                        <h3>Выберите подходящий</h3>
+                        <p>Сравните предложения и выберите путешествие, которое подходит именно вам.</p>
+                    </div>
+ 
+                </div>
+ 
+            </div>
+ 
+            <div class="consultation-contact" id="contacts">
+                <h3>Свяжитесь с нами</h3>
+                <p>Консультация бесплатна. Ответим и поможем определиться с направлением.</p>
+ 
+                <div class="contact-item">
+                    <span>Телефон</span>
+                    +7 (777) 777-77-77
+                </div>
+ 
+                <div class="contact-item">
+                    <span>WhatsApp</span>
+                    +7 (777) 777-77-77
+                </div>
+ 
+                <div class="contact-item">
+                    <span>Электронная почта</span>
+                    travel@example.kz
+                </div>
+ 
+                <button class="consultation-button">Получить консультацию</button>
+            </div>
+ 
+        </div>
+ 
+    </div>
+</section>
+ 
+ 
+<footer>
+    © 2026 Travel Agency · Все права защищены
+</footer>
+ 
+</body>
+</html>

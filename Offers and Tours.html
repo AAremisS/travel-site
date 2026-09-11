@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Все туры — Travel Agency</title>
+<style>
+ 
+:root {
+    --plum: #5b3f56;
+    --plum-dark: #493345;
+    --plum-light: #765a71;
+    --cream: #f2ecd8;
+    --cream-text: #3a2f38;
+    --light: #e7e2d3;
+    --muted: #665963;
+}
+ 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+ 
+html {
+    scroll-behavior: smooth;
+}
+ 
+body {
+    font-family: 'Segoe UI', 'PT Sans', Arial, sans-serif;
+    color: var(--cream-text);
+    background: var(--cream);
+    line-height: 1.5;
+}
+ 
+[id] {
+    scroll-margin-top: 90px;
+}
+ 
+a, button, select {
+    font-family: inherit;
+}
+ 
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--plum-dark);
+    outline-offset: 3px;
+}
+ 
+ 
+/* HEADER */
+ 
+header {
+    background: var(--plum);
+    padding: 22px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+ 
+nav {
+    display: flex;
+    justify-content: center;
+    gap: 70px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+nav a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 4px 2px;
+    transition: opacity 0.2s;
+    position: relative;
+}
+ 
+nav a:hover {
+    opacity: 0.65;
+}
+ 
+nav a.active {
+    opacity: 1;
+}
+ 
+nav a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 2px;
+    background: var(--cream);
+}
+ 
+ 
+/* PAGE INTRO */
+ 
+.page-intro {
+    padding: 60px 40px 20px;
+}
+ 
+.page-intro-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+.page-intro h1 {
+    color: var(--plum);
+    font-size: clamp(2rem, 4vw, 3.1rem);
+    font-weight: 500;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    max-width: 700px;
+}
+ 
+.page-intro p {
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 620px;
+}
+ 
+ 
+/* TOOLBAR */
+ 
+.toolbar {
+    max-width: 1200px;
+    margin: 40px auto 10px;
+    padding: 0 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+ 
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+ 
+.filter-pill {
+    background: transparent;
+    border: 1.5px solid var(--plum-light);
+    color: var(--plum);
+    padding: 9px 20px;
+    border-radius: 999px;
+    font-size: 0.96rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+ 
+.filter-pill:hover {
+    border-color: var(--plum);
+}
+ 
+.filter-pill.active {
+    background: var(--plum);
+    border-color: var(--plum);
+    color: var(--cream);
+}
+ 
+.sort-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.96rem;
+    color: var(--muted);
+}
+ 
+.sort-control select {
+    border: 1.5px solid var(--plum-light);
+    background: var(--cream);
+    color: var(--cream-text);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-size: 0.96rem;
+    cursor: pointer;
+}
+ 
+.results-count {
+    max-width: 1200px;
+    margin: 22px auto 0;
+    padding: 0 40px;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+ 
+ 
+/* TOUR GRID */
+ 
+.tours-section {
+    padding: 20px 40px 90px;
+}
+ 
+.tours-grid {
+    max-width: 1200px;
+    margin: 24px auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+}
+ 
+.card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--plum);
+    box-shadow: 0 8px 25px rgba(74, 51, 70, 0.16);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+ 
+.card:hover,
+.card:focus-within {
+    transform: translateY(-7px);
+    box-shadow: 0 14px 30px rgba(74, 51, 70, 0.22);
+}
+ 
+.card-media {
+    position: relative;
+}
+ 
+.card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+}
+ 
+.card-tag {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(58, 47, 56, 0.6);
+    backdrop-filter: blur(2px);
+    color: var(--cream);
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 999px;
+}
+ 
+.card-label {
+    padding: 20px 20px 24px;
+    text-align: center;
+}
+ 
+.country {
+    color: var(--cream);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+ 
+.duration {
+    color: #c9bcc6;
+    font-size: 0.92rem;
+    margin-bottom: 10px;
+}
+ 
+.price {
+    color: #d8cede;
+    font-size: 1.1rem;
+}
+ 
+.no-results {
+    display: none;
+    text-align: center;
+    color: var(--muted);
+    font-size: 1.05rem;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+ 
+.no-results.visible {
+    display: block;
+}
+ 
+ 
+/* CONTACT BLOCK */
+ 
+.contact-section {
+    background: var(--plum-dark);
+    padding: 70px 40px;
+}
+ 
+.contact-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 50px;
+    align-items: center;
+}
+ 
+.contact-copy h2 {
+    color: var(--cream);
+    font-size: clamp(1.9rem, 3vw, 2.4rem);
+    font-weight: 500;
+    margin-bottom: 16px;
+    line-height: 1.25;
+}
+ 
+.contact-copy p {
+    color: #e3d9df;
+    font-size: 1.03rem;
+    line-height: 1.6;
+    max-width: 480px;
+}
+ 
+.consultation-contact {
+    background: var(--plum);
+    border-radius: 18px;
+    padding: 35px;
+    color: var(--cream);
+}
+ 
+.consultation-contact h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin-bottom: 18px;
+}
+ 
+.consultation-contact > p {
+    color: #ddd0da;
+    line-height: 1.6;
+    margin-bottom: 22px;
+}
+ 
+.contact-item {
+    margin-bottom: 13px;
+    font-size: 1.02rem;
+}
+ 
+.contact-item span {
+    color: #bcaaba;
+    display: block;
+    font-size: 0.82rem;
+    margin-bottom: 3px;
+}
+ 
+.consultation-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 14px 25px;
+    border: none;
+    border-radius: 10px;
+    background: var(--light);
+    color: var(--plum-dark);
+    font-size: 0.98rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+}
+ 
+.consultation-button:hover {
+    background: #fff;
+    transform: translateY(-2px);
+}
+ 
+ 
+/* FOOTER */
+ 
+footer {
+    background: #3e2c3b;
+    color: #cfc2cb;
+    padding: 25px 40px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+ 
+ 
+/* RESPONSIVE */
+ 
+@media (max-width: 900px) {
+ 
+    .contact-inner {
+        grid-template-columns: 1fr;
+    }
+}
+ 
+@media (max-width: 640px) {
+ 
+    header {
+        padding: 16px 20px;
+    }
+ 
+    nav {
+        gap: 22px;
+        justify-content: space-between;
+    }
+ 
+    nav a {
+        font-size: 0.92rem;
+    }
+ 
+    .page-intro {
+        padding: 45px 20px 15px;
+    }
+ 
+    .toolbar {
+        padding: 0 20px;
+        margin-top: 30px;
+    }
+ 
+    .sort-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+ 
+    .sort-control select {
+        flex: 1;
+    }
+ 
+    .results-count {
+        padding: 0 20px;
+    }
+ 
+    .tours-section {
+        padding: 15px 20px 60px;
+    }
+ 
+    .contact-section {
+        padding: 50px 20px;
+    }
+ 
+    .consultation-contact {
+        padding: 26px;
+    }
+}
+ 
+</style>
+</head>
+<body>
+ 
+<header>
+    <nav>
+        <a href="Travel%20agency.html">Лучшие туры</a>
+        <a href="Offers%20and%20Tours.html" class="active">Все предложения</a>
+        <a href="#contacts">Контакты</a>
+    </nav>
+</header>
+ 
+ 
+<section class="page-intro">
+    <div class="page-intro-inner">
+        <h1>Все туры</h1>
+        <p>Полный список направлений с актуальными ценами — не только Азия, но и Европа, Африка и Ближний Восток. Отфильтруйте по региону или отсортируйте по стоимости, чтобы быстрее найти подходящий вариант.</p>
+    </div>
+</section>
+ 
+ 
+<div class="toolbar">
+ 
+    <div class="filters" role="group" aria-label="Фильтр по региону">
+        <button class="filter-pill active" data-filter="all">Все направления</button>
+        <button class="filter-pill" data-filter="sea">Юго-Восточная Азия</button>
+        <button class="filter-pill" data-filter="east-asia">Восточная Азия</button>
+        <button class="filter-pill" data-filter="middle-east">Ближний Восток</button>
+        <button class="filter-pill" data-filter="south-asia">Южная Азия</button>
+        <button class="filter-pill" data-filter="africa">Африка</button>
+        <button class="filter-pill" data-filter="europe">Европа</button>
+    </div>
+ 
+    <div class="sort-control">
+        <label for="sortSelect">Сортировать:</label>
+        <select id="sortSelect">
+            <option value="default">По умолчанию</option>
+            <option value="price-asc">Сначала дешевле</option>
+            <option value="price-desc">Сначала дороже</option>
+            <option value="name-asc">По названию А–Я</option>
+        </select>
+    </div>
+ 
+</div>
+ 
+<p class="results-count" id="resultsCount">Показано 11 туров</p>
+ 
+ 
+<section class="tours-section">
+ 
+    <div class="tours-grid" id="toursGrid">
+ 
+        <div class="card" data-region="sea" data-price="240000" data-name="Вьетнам">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" alt="Лодки на реке во Вьетнаме">
+                <span class="card-tag">Юго-Восточная Азия</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Вьетнам</div>
+                <div class="duration">7 ночей · вылет из Алматы</div>
+                <div class="price">от 240 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="middle-east" data-price="237000" data-name="Турция">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=800&q=80" alt="Вид на город в Турции">
+                <span class="card-tag">Ближний Восток</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Турция</div>
+                <div class="duration">7 ночей · вылет из Алматы</div>
+                <div class="price">от 237 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="sea" data-price="228000" data-name="Таиланд">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=800&q=80" alt="Статуя Будды в Таиланде">
+                <span class="card-tag">Юго-Восточная Азия</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Таиланд</div>
+                <div class="duration">8 ночей · вылет из Алматы</div>
+                <div class="price">от 228 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="sea" data-price="262000" data-name="Малайзия">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80" alt="Башни Петронас в Малайзии">
+                <span class="card-tag">Юго-Восточная Азия</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Малайзия</div>
+                <div class="duration">7 ночей · вылет из Алматы</div>
+                <div class="price">от 262 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="sea" data-price="295000" data-name="Индонезия (Бали)">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80" alt="Рисовые террасы на Бали">
+                <span class="card-tag">Юго-Восточная Азия</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Индонезия (Бали)</div>
+                <div class="duration">9 ночей · вылет из Алматы</div>
+                <div class="price">от 295 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="middle-east" data-price="310000" data-name="ОАЭ">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80" alt="Небоскрёбы Дубая">
+                <span class="card-tag">Ближний Восток</span>
+            </div>
+            <div class="card-label">
+                <div class="country">ОАЭ</div>
+                <div class="duration">6 ночей · вылет из Алматы</div>
+                <div class="price">от 310 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="east-asia" data-price="275000" data-name="Китай">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=800&q=80" alt="Великая Китайская стена">
+                <span class="card-tag">Восточная Азия</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Китай</div>
+                <div class="duration">7 ночей · вылет из Алматы</div>
+                <div class="price">от 275 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="south-asia" data-price="320000" data-name="Шри-Ланка">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80" alt="Побережье Шри-Ланки">
+                <span class="card-tag">Южная Азия</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Шри-Ланка</div>
+                <div class="duration">9 ночей · вылет из Алматы</div>
+                <div class="price">от 320 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="africa" data-price="195000" data-name="Египет">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=800&q=80" alt="Пирамиды Гизы в Египте">
+                <span class="card-tag">Африка</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Египет</div>
+                <div class="duration">7 ночей · вылет из Алматы</div>
+                <div class="price">от 195 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="europe" data-price="350000" data-name="Греция">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80" alt="Санторини в Греции">
+                <span class="card-tag">Европа</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Греция</div>
+                <div class="duration">7 ночей · вылет из Алматы</div>
+                <div class="price">от 350 000 ТГ</div>
+            </div>
+        </div>
+ 
+        <div class="card" data-region="europe" data-price="380000" data-name="Италия">
+            <div class="card-media">
+                <img src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80" alt="Колизей в Италии">
+                <span class="card-tag">Европа</span>
+            </div>
+            <div class="card-label">
+                <div class="country">Италия</div>
+                <div class="duration">8 ночей · вылет из Алматы</div>
+                <div class="price">от 380 000 ТГ</div>
+            </div>
+        </div>
+ 
+    </div>
+ 
+    <p class="no-results" id="noResults">По этому фильтру туров пока нет — попробуйте выбрать другой регион.</p>
+ 
+</section>
+ 
+ 
+<section class="contact-section" id="contacts">
+    <div class="contact-inner">
+ 
+        <div class="contact-copy">
+            <h2>Не нашли подходящее направление?</h2>
+            <p>Расскажите, каким вы представляете отдых, — подберём вариант индивидуально, даже если его нет в этом списке.</p>
+        </div>
+ 
+        <div class="consultation-contact">
+            <h3>Свяжитесь с нами</h3>
+            <p>Консультация бесплатна. Ответим и поможем определиться с направлением.</p>
+ 
+            <div class="contact-item">
+                <span>Телефон</span>
+                +7 (777) 777-77-77
+            </div>
+ 
+            <div class="contact-item">
+                <span>WhatsApp</span>
+                +7 (777) 777-77-77
+            </div>
+ 
+            <div class="contact-item">
+                <span>Электронная почта</span>
+                travel@example.kz
+            </div>
+ 
+            <button class="consultation-button">Получить консультацию</button>
+        </div>
+ 
+    </div>
+</section>
+ 
+ 
+<footer>
+    © 2026 Travel Agency · Все права защищены
+</footer>
+ 
+ 
+<script>
+(function () {
+    var grid = document.getElementById('toursGrid');
+    var cards = Array.from(grid.querySelectorAll('.card'));
+    var filterButtons = document.querySelectorAll('.filter-pill');
+    var sortSelect = document.getElementById('sortSelect');
+    var resultsCount = document.getElementById('resultsCount');
+    var noResults = document.getElementById('noResults');
+    var currentFilter = 'all';
+ 
+    function pluralTours(n) {
+        var mod10 = n % 10;
+        var mod100 = n % 100;
+        if (mod10 === 1 && mod100 !== 11) return 'тур';
+        if ([2, 3, 4].indexOf(mod10) !== -1 && [12, 13, 14].indexOf(mod100) === -1) return 'тура';
+        return 'туров';
+    }
+ 
+    function applyFilter() {
+        var visibleCount = 0;
+        cards.forEach(function (card) {
+            var match = currentFilter === 'all' || card.dataset.region === currentFilter;
+            card.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        });
+        resultsCount.textContent = 'Показано ' + visibleCount + ' ' + pluralTours(visibleCount);
+        noResults.classList.toggle('visible', visibleCount === 0);
+    }
+ 
+    filterButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            filterButtons.forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            applyFilter();
+        });
+    });
+ 
+    sortSelect.addEventListener('change', function () {
+        var value = sortSelect.value;
+        var sorted = cards.slice();
+ 
+        if (value === 'price-asc') {
+            sorted.sort(function (a, b) { return a.dataset.price - b.dataset.price; });
+        } else if (value === 'price-desc') {
+            sorted.sort(function (a, b) { return b.dataset.price - a.dataset.price; });
+        } else if (value === 'name-asc') {
+            sorted.sort(function (a, b) { return a.dataset.name.localeCompare(b.dataset.name, 'ru'); });
+        }
+ 
+        sorted.forEach(function (card) { grid.appendChild(card); });
+    });
+ 
+    applyFilter();
+})();
+</script>
+ 
+</body>
+</html>
